@@ -38,7 +38,7 @@ jobs:
             #echo "ws $GITHUB_WORKSPACE"
             #echo "action path $GITHUB_ACTION_PATH"
             cd /home/runner/work/poi/poi/web
-            az acr build --image "devopsoh/api-poi:v_${GITHUB_RUN_NUMBER}" --registry $ACRNAME --file Dockerfile .
+            az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
             
    
     - name: App deployment
