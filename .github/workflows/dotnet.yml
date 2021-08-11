@@ -34,5 +34,5 @@ jobs:
             #echo "repo $GITHUB_REPOSITORY"
             #echo "ws $GITHUB_WORKSPACE"
             #echo "action path $GITHUB_ACTION_PATH"
-            cd $GITHUB_REPOSITORY/web
+            cd /home/runner/work/poi/poi/web
             az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile .'
