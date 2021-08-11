@@ -45,7 +45,7 @@ jobs:
       uses: azure/webapps-deploy@v2      
       with:        
         app-name: 'openhackahx2xw01poi'        
-        images: 'openhackahx2xw01acr.azurecr.io/api-poi:v_${GITHUB_RUN_NUMBER}'
+        images: 'openhackahx2xw01acr.azurecr.io/api-poi:v_${{GITHUB_RUN_NUMBER}}'
         
         
         
