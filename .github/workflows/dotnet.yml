@@ -5,7 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+      BASEIMAGETAG: "poi-image"
+      ACRNAME: "openhackahx2xw01acr"
 jobs:
   build:
 
@@ -23,3 +25,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Image
+      run: |
+            echo "Building API-POI image..."
+            echo "Changing directory to /web..."
+            cd /web
+            az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile'
