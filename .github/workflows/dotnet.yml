@@ -31,8 +31,8 @@ jobs:
       run: |
             echo "Building API-POI image..."
             echo "Changing directory to /web..."
-            echo "repo $GITHUB_REPOSITORY"
-            echo "ws $GITHUB_WORKSPACE"
-            echo "action path $GITHUB_ACTION_PATH"
-            #cd $GITOHTEAMDIRPATH/poi/web
-            #az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile'
+            #echo "repo $GITHUB_REPOSITORY"
+            #echo "ws $GITHUB_WORKSPACE"
+            #echo "action path $GITHUB_ACTION_PATH"
+            cd $GITHUB_REPOSITORY/web
+            az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile'
