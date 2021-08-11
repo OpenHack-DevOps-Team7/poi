@@ -8,6 +8,7 @@ on:
 env:
       BASEIMAGETAG: "poi-image"
       ACRNAME: "openhackahx2xw01acr"
+      GITOHTEAMDIRPATH: "OpenHack-DevOps-Team7"
 jobs:
   build:
 
@@ -29,5 +30,5 @@ jobs:
       run: |
             echo "Building API-POI image..."
             echo "Changing directory to /web..."
-            cd /web
+            cd $GITOHTEAMDIRPATH/poi/web
             az acr build --image "devopsoh/api-poi:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile'
