@@ -40,7 +40,12 @@ jobs:
             cd /home/runner/work/poi/poi/web
             az acr build --image "devopsoh/api-poi:v_${GITHUB_RUN_NUMBER}" --registry $ACRNAME --file Dockerfile .
             
-            
+    - name: Output Run Number
+      run: echo ${{ github.run_number }}
+    - name: Output Run Number
+      run: echo ${{ GITHUB_RUN_NUMBER }}
+    - name: Output GITHUB_REPOSITORY 
+      run: echo ${{ env.GITHUB_REPOSITORY  }}       
     - name: App deployment
       uses: azure/webapps-deploy@v2      
       with:        
