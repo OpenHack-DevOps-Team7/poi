@@ -9,6 +9,7 @@ env:
       BASEIMAGETAG: "poi-image"
       ACRNAME: "openhackahx2xw01acr"
       GITOHTEAMDIRPATH: "OpenHack-DevOps-Team7"
+      TEST: "test"
 jobs:
   build:
 
