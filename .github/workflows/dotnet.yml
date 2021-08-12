@@ -52,7 +52,15 @@ jobs:
     #  run: powershell .\Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
 
 
-    - name: Healthcheck
-      shell: pwsh
+    #- name: Healthcheck
+    #  shell: pwsh
+    #  run: |
+    #  .\Polling.ps1
+    - name: Swap staging slot into production
+      id: slot_swap
       run: |
-      .\Polling.ps1
+        az webapp deployment slot swap -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" -s staging
+        url=$(az webapp show -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" --query "defaultHostName" -o tsv)
+        echo "::set-output name=url::http://$url"
+
+
