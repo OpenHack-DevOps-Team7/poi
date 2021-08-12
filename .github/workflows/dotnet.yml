@@ -43,7 +43,8 @@ jobs:
    
     - name: App deployment
       uses: azure/webapps-deploy@v2      
-      with:        
+      with:
+        slot-name: 'staging'        
         app-name: 'openhackahx2xw01poi'        
         images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
         
