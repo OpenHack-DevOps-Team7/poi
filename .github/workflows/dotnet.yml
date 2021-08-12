@@ -49,6 +49,6 @@ jobs:
 
     - name: HealthTest1
       shell: pwsh
-      run: |
+      run: | 
      ./Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
 
