@@ -41,7 +41,7 @@ jobs:
             cd /home/runner/work/poi/poi/web
             az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
    
-   - name: Start staging slot before deploy
+    - name: Start staging slot before deploy
       if: github.ref == 'refs/heads/main'
       id: slot_start
       run: | 
