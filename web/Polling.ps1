@@ -36,7 +36,7 @@ while($counter -lt 3) {
 
     $output = '{0} | {1}' -f($timestamp, $R.StatusCode)
   }
-  $env:STATUS = $R.StatusCode
+  Write-Output "::set-env name=$env:STATUS::$R.StatusCode"
   $counter++
   Write-Output $counter
   Write-Output $output
