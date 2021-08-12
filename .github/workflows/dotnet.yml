@@ -49,13 +49,14 @@ jobs:
     #     images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
     
     - name: Healthcheck
+      id: health_check
       shell: pwsh
-      run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
+      run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi 
 
     - name: ConditionOnHealthCheck
       #if: ${{env.STATUS}} != '200'
       id: status_cond
-      run: echo ${{env.STATUS}}
+      run: echo ${{steps.health_check.outputs.STATUS}}
         
     # - name: Swap staging slot into production
     #   if: github.ref == 'refs/heads/main' 
