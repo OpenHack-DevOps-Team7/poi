@@ -32,21 +32,21 @@ jobs:
       uses: azure/login@v1
       with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-    - name: Image
-      run: |
-            echo "Building API-POI image..."
-            #echo "repo $GITHUB_REPOSITORY"
-            #echo "ws $GITHUB_WORKSPACE"
-            #echo "action path $GITHUB_ACTION_PATH"
-            cd /home/runner/work/poi/poi/web
-            az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
+    # - name: Image
+    #   run: |
+    #         echo "Building API-POI image..."
+    #         #echo "repo $GITHUB_REPOSITORY"
+    #         #echo "ws $GITHUB_WORKSPACE"
+    #         #echo "action path $GITHUB_ACTION_PATH"
+    #         cd /home/runner/work/poi/poi/web
+    #         az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
    
-    - name: App deployment
-      uses: azure/webapps-deploy@v2      
-      with:
-        slot-name: 'staging'        
-        app-name: 'openhackahx2xw01poi'        
-        images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
+    # - name: App deployment
+    #   uses: azure/webapps-deploy@v2      
+    #   with:
+    #     slot-name: 'staging'        
+    #     app-name: 'openhackahx2xw01poi'        
+    #     images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
     
     - name: Healthcheck
       shell: pwsh
