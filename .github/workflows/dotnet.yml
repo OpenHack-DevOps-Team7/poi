@@ -53,7 +53,7 @@ jobs:
       run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
 
     - name: ConditionOnHealthCheck
-      if: $STATUS != '200'
+      if: $env.STATUS != '200'
       id: status_cond
       run: exit 1
 
