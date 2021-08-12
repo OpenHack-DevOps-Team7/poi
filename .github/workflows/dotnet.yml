@@ -5,7 +5,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
+env:
+      BASEIMAGETAG: "poi-image"
+      ACRNAME: "openhackahx2xw01acr"
+      GITOHTEAMDIRPATH: "OpenHack-DevOps-Team7"
+      TEST: "test"
 jobs:
   build:
 
@@ -23,3 +27,25 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Log in with Azure
+      uses: azure/login@v1
+      with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+    - name: Image
+      run: |
+            echo "Building API-POI image..."
+            #echo "repo $GITHUB_REPOSITORY"
+            #echo "ws $GITHUB_WORKSPACE"
+            #echo "action path $GITHUB_ACTION_PATH"
+            cd /home/runner/work/poi/poi/web
+            az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
+            
+   
+    - name: App deployment
+      uses: azure/webapps-deploy@v2      
+      with:        
+        app-name: 'openhackahx2xw01poi'        
+        images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
+        
+        
+        
