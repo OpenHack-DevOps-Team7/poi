@@ -10,6 +10,7 @@ env:
       ACRNAME: "openhackahx2xw01acr"
       GITOHTEAMDIRPATH: "OpenHack-DevOps-Team7"
       TEST: "test"
+      STATUS: ""
 jobs:
   build:
 
@@ -39,7 +40,6 @@ jobs:
             #echo "action path $GITHUB_ACTION_PATH"
             cd /home/runner/work/poi/poi/web
             az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
-            
    
     - name: App deployment
       uses: azure/webapps-deploy@v2      
@@ -47,20 +47,16 @@ jobs:
         slot-name: 'staging'        
         app-name: 'openhackahx2xw01poi'        
         images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
+    - name: Healthcheck
+      shell: pwsh
+      run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
 
-    #- name: HealthTest1
-    #  run: powershell .\Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
-
-
-    #- name: Healthcheck
-    #  shell: pwsh
-    #  run: |
-    #  .\Polling.ps1
+    - name: HealthcheckStatus
+      run: |
+          echo $STATUS
     - name: Swap staging slot into production
       id: slot_swap
       run: |
         az webapp deployment slot swap -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" -s staging
         url=$(az webapp show -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" --query "defaultHostName" -o tsv)
         echo "::set-output name=url::http://$url"
-
-
