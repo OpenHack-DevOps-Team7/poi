@@ -36,7 +36,8 @@ while($counter -lt 3) {
 
     $output = '{0} | {1}' -f($timestamp, $R.StatusCode)
   }
-  Write-Output $env:STATUS = $R.StatusCode
+  $env:STATUS = $R.StatusCode
+  Write-Output $env:STATUS
   $counter++
   Write-Output $counter
   Write-Output $output
