@@ -25,7 +25,7 @@ Param(
     )
 
 $counter = 1
-while($counter < 30) {
+while($counter -lt 30) {
   $R = Invoke-WebRequest -URI $Uri
   $timestamp = Get-Date
   $output = ""
