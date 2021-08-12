@@ -47,7 +47,7 @@ jobs:
         app-name: 'openhackahx2xw01poi'        
         images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
 
-    - name: HealthTest1
+    - name: Healthcheck
       shell: pwsh
-      run: ./Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
+      run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
 
