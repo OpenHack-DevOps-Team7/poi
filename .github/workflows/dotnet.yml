@@ -32,21 +32,27 @@ jobs:
       uses: azure/login@v1
       with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
-    # - name: Image
-    #   run: |
-    #         echo "Building API-POI image..."
-    #         #echo "repo $GITHUB_REPOSITORY"
-    #         #echo "ws $GITHUB_WORKSPACE"
-    #         #echo "action path $GITHUB_ACTION_PATH"
-    #         cd /home/runner/work/poi/poi/web
-    #         az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
+    - name: Image
+      run: |
+            echo "Building API-POI image..."
+            #echo "repo $GITHUB_REPOSITORY"
+            #echo "ws $GITHUB_WORKSPACE"
+            #echo "action path $GITHUB_ACTION_PATH"
+            cd /home/runner/work/poi/poi/web
+            az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
    
-    # - name: App deployment
-    #   uses: azure/webapps-deploy@v2      
-    #   with:
-    #     slot-name: 'staging'        
-    #     app-name: 'openhackahx2xw01poi'        
-    #     images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
+   - name: Start staging slot before deploy
+      if: github.ref == 'refs/heads/main'
+      id: slot_start
+      run: | 
+        az webapp start --name openhackahx2xw01poi -s staging --resource-group openhackahx2xw01rg
+
+    - name: App deployment
+      uses: azure/webapps-deploy@v2      
+      with:
+        slot-name: 'staging'        
+        app-name: 'openhackahx2xw01poi'        
+        images: 'openhackahx2xw01acr.azurecr.io/devopsoh/api-poi:v_${{github.run_number}}'
     
     - name: Healthcheck
       id: health_check
@@ -57,20 +63,20 @@ jobs:
       #if: ${{env.STATUS}} != '200'
       id: status_cond
       run: echo ${{steps.health_check.outputs.STATUS}}
-        
-    # - name: Swap staging slot into production
-    #   if: github.ref == 'refs/heads/main' 
-    #   id: slot_swap
-    #   run: |
-    #     az webapp deployment slot swap -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" -s staging
-    #     url=$(az webapp show -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" --query "defaultHostName" -o tsv)
-    #     echo "::set-output name=url::http://$url"
 
-    # - name: Shut down staging slot after swap
-    #   if: github.ref == 'refs/heads/main'
-    #   id: slot_shutdown
-    #   run: | 
-    #     az webapp stop --name openhackahx2xw01poi -s staging --resource-group openhackahx2xw01rg
+    - name: Swap staging slot into production
+      if: github.ref == 'refs/heads/main' 
+      id: slot_swap
+      run: |
+        az webapp deployment slot swap -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" -s staging
+        url=$(az webapp show -g "openhackahx2xw01rg" -n "openhackahx2xw01poi" --query "defaultHostName" -o tsv)
+        echo "::set-output name=url::http://$url"
+
+    - name: Shut down staging slot after swap
+      if: github.ref == 'refs/heads/main'
+      id: slot_shutdown
+      run: | 
+        az webapp stop --name openhackahx2xw01poi -s staging --resource-group openhackahx2xw01rg
       
 # 1. check health : 200 code
   # good -> 
