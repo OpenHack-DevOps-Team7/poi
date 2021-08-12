@@ -42,7 +42,6 @@ jobs:
             az acr build --image "devopsoh/api-poi:v_${{github.run_number}}" --registry $ACRNAME --file Dockerfile .
    
     - name: Start staging slot before deploy
-      if: github.ref == 'refs/heads/main'
       id: slot_start
       run: | 
         az webapp start --name openhackahx2xw01poi -s staging --resource-group openhackahx2xw01rg
