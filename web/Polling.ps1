@@ -24,8 +24,9 @@ Param(
     [boolean] [Parameter(Mandatory=$false)] $displayUri
     )
 
-$counter = 1
-while($counter -lt 30) {
+$counter = 0
+Start-Sleep -Seconds 15
+while($counter -lt 3) {
   $R = Invoke-WebRequest -URI $Uri
   $timestamp = Get-Date
   $output = ""
@@ -35,6 +36,7 @@ while($counter -lt 30) {
 
     $output = '{0} | {1}' -f($timestamp, $R.StatusCode)
   }
+  $env:STATUS = $R.StatusCode
   $counter++
   Write-Output $counter
   Write-Output $output

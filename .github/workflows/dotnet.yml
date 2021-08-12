@@ -10,6 +10,7 @@ env:
       ACRNAME: "openhackahx2xw01acr"
       GITOHTEAMDIRPATH: "OpenHack-DevOps-Team7"
       TEST: "test"
+      STATUS: ""
 jobs:
   build:
 
@@ -50,4 +51,8 @@ jobs:
     - name: Healthcheck
       shell: pwsh
       run: ./web/Polling.ps1 https://openhackahx2xw01poi-staging.azurewebsites.net/api/healthcheck/poi
+
+    - name: HealthcheckStatus
+      run: |
+          echo $STATUS
 
